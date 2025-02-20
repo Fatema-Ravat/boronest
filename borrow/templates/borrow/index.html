@@ -1,0 +1,64 @@
+{% extends 'users/base.html' %}
+{% load static %}
+
+{% block body %}
+
+<nav class="px-4 py-2 mx-auto shadow-lg">
+    <div class="flex justify-between">
+        <div>
+            <h1 class="text-3xl text-slate-700 font-bold ">BoroNest- {% if user.is_authenticated%} {{user.userprofile.apartment_name}} {%endif%} </h1>
+            <p class="text-slate-500 font-semibold text-center">A one stop solution 
+            for sharing with your Neighbours. 
+            </p>
+        </div>
+        <div>
+            <form method="POST" class="flex flex-auto" action="{%url 'search' %}" >
+                {%csrf_token%}
+                <input
+                class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md pl-3 pr-28 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
+            placeholder="Books, Toys..." name="searchValue"/>
+                
+                <button class=" items-center rounded bg-slate-800 py-1 px-2.5 border border-transparent text-center text-sm text-white transition-all shadow-sm hover:shadow focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+</nav>
+    <div class="shadow-lg mt-5">
+        
+    </div>
+    
+    <div class="mt-5">
+        <div class="flex justify-center mt-5">
+            <h2 class="text-xl font-bold mb-2 text-gray-500"> Product Listings </h2>
+        </div>
+        <div class="grid grid-cols-1 mx-60 p-5">
+            {% for product in product_list %}
+                <div class="shadow-lg mb-10 flex">
+                    <div>
+                        <div class="user-container flex mx-5 my-5">
+                            <img src="{{product.owner.userprofile.image.url}}" class="rounded-full h-10 w-10">
+                            <div class="mx-2 my-2 font-bold text-indigo-500">{{product.owner}} </div>
+                        </div> 
+                        <div class="rounded h-[150px] w-[150px] shadow overflow-hidden mx-2 my-2">
+                            <img src="{{product.picture.url}}"  >
+                        </div>
+                    </div>
+                    
+                    <div class = "px-5 py-2">
+                        <div class="font-bold text-xl mb-2"> {{product.name}}</div>
+                        <div class="mx-2 my-2 font-normal">{{product.description}}</div>
+                        {% if user.is_authenticated %}
+                            {% if product.is_availabe %}
+                                <a href="{% url 'borrow_product' product.id %}" class=" p-2 shadow border rounded bg-green-500">Borrow</a>
+                            {% else %}
+                                <span class="shadow border rounded bg-red-500">Not Available</span>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock body %}

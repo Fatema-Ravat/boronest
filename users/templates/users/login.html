@@ -1,0 +1,22 @@
+{% extends 'users/base.html' %}
+{% block body %}
+    <h1 class="text-2xl m-10">User Login </h1>
+    <div >
+        <div class="container py-5">
+            <form method="POST" class="bg-white shadow-md m-5 w-2/5 rounded px-8 pt-6 pb-8 mb-4">
+                {% csrf_token %}
+                <div class="mb-2">
+                    {% for item in user_login_form %}
+                        <label class="font-semibold text-gray-500 block mb-2">{{ item.label }}</label>
+                        <div class="shadow appearance-none border rounded px-3 py-2 mr-10 text-gray-500">{{ item }}</div>
+                    {% endfor %}
+                </div>
+                
+                <button type="submit" class="shadow-lg bg-green-500 p-2 rounded m-2">Login</button>
+            </form>
+        </div>
+        <p class="px-5">New User? Register <a href="{% url 'register_user' %}" class="font-bold text-indigo-500">here</a></p>
+
+    </div>
+    
+{% endblock body %}

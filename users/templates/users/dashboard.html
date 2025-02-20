@@ -1,0 +1,101 @@
+{% extends 'users/base.html' %}
+{% load static %}
+{% block body %}
+<div class="w-full">
+    <div class="relative right-0">
+      <ul class="relative flex flex-wrap px-1.5 py-1.5 list-none rounded-md bg-slate-100" data-tabs="tabs" role="list">
+        <li class="z-30 flex-auto text-center">
+          <a class="z-30 flex items-center justify-center w-full px-0 py-2 text-sm mb-0 transition-all ease-in-out border-0 rounded-md cursor-pointer text-slate-600 bg-inherit"
+          data-tab-target="" role="tab" aria-selected="true" aria-controls="dashboard">
+            Dashboard
+          </a>
+        </li>
+        <li class="z-30 flex-auto text-center">
+          <a class="z-30 flex items-center justify-center w-full px-0 py-2 mb-0 text-sm transition-all ease-in-out border-0 rounded-lg cursor-pointer text-slate-600 bg-inherit"
+          data-tab-target="" role="tab" aria-selected="false"  aria-controls="approvals">
+            My Approvals
+          </a>
+        </li>
+        
+      </ul>
+   
+      <div data-tab-content="" class="p-5">
+        <div id="dashboard" role="tabpanel">
+          
+        <div class="grid grid-cols-2 mx-25 p-5">
+            <div class="m-10">
+
+                <h2 class="text-xl font-bold mb-5 text-gray-500"> My Listings </h2>
+                {% for product  in my_products %}
+                    <div class="shadow-lg mb-4 flex">
+                        
+                        <div class="rounded h-[100px] w-[100px] shadow overflow-hidden mx-2 my-2">
+                            <img src="{{product.picture.url}}"  >
+                        </div>
+                        
+                        <div class = "px-5 py-2">
+                            <div class="font-bold text-xl mb-2"> {{product.name}}</div>
+                            <div class="mx-2 my-2 font-normal">{{product.description}}</div>
+                        </div>
+                        
+        
+                    </div>
+        
+                {% endfor %}
+            </div>
+            <div class="m-10">
+                <h2 class="text-xl font-bold mb-5 text-gray-500 "> My Borrows </h2>
+                {% for borrow  in my_borrows %}
+                    <div class="shadow-lg mb-4 flex">
+                        
+                        <div class="rounded h-[100px] w-[100px] shadow overflow-hidden mx-2 my-2">
+                            <img src="{{borrow.product.picture.url}}"  >
+                        </div>
+                        
+                        <div class = "px-5 py-2">
+                            <div class="font-bold text-xl mb-2"> {{borrow.product.name}}</div>
+                            <div class="mx-2 my-2 font-normal">{{borrow.product.description}}</div>
+                            <a href="{% url 'return_request' borrow.product.id %}" class=" p-2 shadow border rounded bg-green-500">Return</a>
+
+                        </div>
+                        
+        
+                    </div>
+        
+                {% endfor %}
+            </div>
+    
+        </div>
+        </div>
+        <div class="hidden opacity-0" id="approvals" role="tabpanel">
+            <h2 class="text-xl font-bold mb-5 text-gray-500 "> My Approvals </h2>
+            {% for borrow  in my_approvals %}
+                <div class="shadow-lg mb-4 flex">
+                    
+                    <div class="rounded h-[50px] w-[50px] shadow overflow-hidden mx-2 my-2">
+                        <img src="{{borrow.product.picture.url}}"  >
+                    </div>
+                    
+                    <div class = "px-5 py-2">
+                        <div class="font-bold text-xl mb-2"> {{borrow.product.name}}</div>
+                        <div class="mx-2 my-2 font-normal">{{borrow.product.description}}</div>
+                        <a href="{% url 'approve_request' borrow.product.id %}" class=" p-2 shadow border rounded bg-green-500">Approve</a>
+
+                    </div>
+                    
+    
+                </div>
+               
+            {% endfor %}
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+    
+  <script src="https://unpkg.com/@material-tailwind/html@latest/scripts/tabs.js"></script>
+
+    
+       
+{% endblock body %}
